@@ -22,7 +22,18 @@ public class Main {
 
        test.checkDelete();
        System.out.println("Check deleted issues:");
-       test.printAllIssues();*/
+       test.printAllIssues();
+
+       import java.io.IOException;
+
+public class Main {
+
+    public static void main(String[] args) throws IOException {
+        new KVServer().start();
+    }
+}
+
+       */
 
 
     }

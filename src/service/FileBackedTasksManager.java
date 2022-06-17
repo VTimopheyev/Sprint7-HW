@@ -5,6 +5,7 @@ import issues.*;
 import java.io.*;
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 import static issues.IssueType.*;
@@ -309,6 +310,26 @@ public class FileBackedTasksManager extends InMemoryTaskManager implements TaskM
     public void removeAllRelatedSubtasks(int epicId) {
         super.removeAllRelatedSubtasks(epicId);
         save();
+    }
+
+    ArrayList<Task> getAllIssuesList() {
+        ArrayList<Task> list = new ArrayList<>();
+        if (!tasks.isEmpty()) {
+            for (Task task : tasks.values()) {
+                list.add(task);
+            }
+        }
+        if (!epics.isEmpty()) {
+            for (Epic epic : epics.values()) {
+                list.add(epic);
+            }
+        }
+        if (!subtasks.isEmpty()) {
+            for (Subtask subtask : subtasks.values()) {
+                list.add(subtask);
+            }
+        }
+        return list;
     }
 }
 
