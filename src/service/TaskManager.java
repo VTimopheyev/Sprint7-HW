@@ -52,6 +52,8 @@ public interface TaskManager {
     TreeMap getPrioritizedIssuesList();
 
     boolean validateNewDateForTask(Task issueById);
+
+    void refreshPrioritizedIssuesList();
 }
 
 

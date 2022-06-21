@@ -2,6 +2,7 @@ package issues;
 
 import java.time.Duration;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Objects;
 
 public class Task {
@@ -11,7 +12,7 @@ public class Task {
     private String description = "Empty";
     private IssueStatus status = IssueStatus.NONE;
     private IssueType type = IssueType.TASK;
-    private ZonedDateTime startDate = null;
+    public ZonedDateTime startDate = null;
     private Duration issueDuration = null;
 
     public Task(String title, String description) {

@@ -11,7 +11,6 @@ public class Test {
 
     public void createIssues() {
 
-        TaskManager taskManager = Managers.getDefault("sources/test.csv");
         Task task1 = new Task("First task", "Very first task");
         Task task2 = new Task("Second task", "Another one");
         Epic epic1 = new Epic("First epic", "Some description");

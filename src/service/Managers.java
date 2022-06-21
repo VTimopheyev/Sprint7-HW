@@ -2,8 +2,8 @@ package service;
 
 public class Managers {
 
-    public static  TaskManager getDefault(String filePath) {
-        return new FileBackedTasksManager(filePath);
+    public static HttpTaskManager getDefault(String URL)  {
+        return new HttpTaskManager(URL);
     }
 
     public static TaskManager getDefault() {

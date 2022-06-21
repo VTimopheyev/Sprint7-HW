@@ -9,8 +9,8 @@ import issues.*;
 public class InMemoryTaskManager implements TaskManager {
 
     protected int idCount;
-    protected HashMap<Integer, Task> tasks = new HashMap<>();
-    protected HashMap<Integer, Subtask> subtasks = new HashMap<>();
+    public HashMap<Integer, Task> tasks = new HashMap<>();
+    public HashMap<Integer, Subtask> subtasks = new HashMap<>();
     protected HashMap<Integer, Epic> epics = new HashMap<>();
     protected HistoryManager historyManager;
     protected TreeMap<ZonedDateTime, Integer> prioritizedIssuesList;
@@ -511,7 +511,7 @@ public class InMemoryTaskManager implements TaskManager {
         return true;
     }
 
-    private void refreshPrioritizedIssuesList() {
+    public void refreshPrioritizedIssuesList() {
         Comparator<ZonedDateTime> priorityComparator = (zonedDateTime, other) -> {
             if (zonedDateTime == null) {
                 return 1;

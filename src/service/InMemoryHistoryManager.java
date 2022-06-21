@@ -30,6 +30,8 @@ public class InMemoryHistoryManager implements HistoryManager {
         return tasksLinks.getTasks();
     }
 
+
+
     public class CustomLinkedList<Task> {
 
         private HashMap<Integer, Node> tasksNodes = new HashMap<>();
