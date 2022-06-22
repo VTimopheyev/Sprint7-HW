@@ -7,10 +7,10 @@ import org.junit.jupiter.api.Test;
 
 public class InMemoryHistoryManagerTest {
 
-    private FileBackedTasksManager manager;
+    private InMemoryTaskManager manager;
 
     public void createTestingInstance() {
-        TaskManager taskManager = Managers.getDefault("sources/test.csv");
+        TaskManager taskManager = Managers.getDefault();
         Task task1 = new Task("First task", "Very first task");
         Task task2 = new Task("Second task", "Another one");
         Epic epic1 = new Epic("First epic", "Some description");
@@ -19,7 +19,7 @@ public class InMemoryHistoryManagerTest {
         taskManager.addTask(task2);
         taskManager.addEpic(epic1);
         taskManager.addEpic(epic2);
-        this.manager = (FileBackedTasksManager) taskManager;
+        this.manager = (InMemoryTaskManager) taskManager;
     }
 
     @Test

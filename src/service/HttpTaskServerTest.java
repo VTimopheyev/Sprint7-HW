@@ -21,13 +21,12 @@ public class HttpTaskServerTest {
 
     @BeforeAll
     public static void startKVServer() {
-        KVServer server = null;
         try {
-            server = new KVServer();
+            KVServer kvServer = new KVServer();
+            kvServer.start();
         } catch (IOException e) {
             e.printStackTrace();
         }
-        server.start();
     }
 
     @AfterEach
