@@ -1,15 +1,12 @@
+package service;
+
 import java.io.IOException;
-import java.io.OutputStream;
 import java.net.InetSocketAddress;
-import java.net.http.HttpClient;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.google.gson.Gson;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpServer;
-
-import static java.nio.charset.StandardCharsets.UTF_8;
 
 /**
  * ???????: https://www.getpostman.com/collections/a83b61d9e1c81c10575c
@@ -18,7 +15,7 @@ public class KVServer {
     public static final int PORT = 8078;
     private final String apiToken;
     private final HttpServer server;
-    public final Map<String, String> data = new HashMap<>();
+    private final Map<String, String> data = new HashMap<>();
 
     public KVServer() throws IOException {
         apiToken = generateApiToken();
@@ -128,13 +125,11 @@ public class KVServer {
     }
 
     protected String readText(HttpExchange h) throws IOException {
-        //return new String(h.getRequestBody().readAllBytes(), UTF_8);
         return new String(h.getRequestBody().readAllBytes());
     }
 
     protected void sendText(HttpExchange h, String text) throws IOException {
         byte[] resp = text.getBytes();
-        //byte[] resp = text.getBytes(UTF_8);
         h.getResponseHeaders().add("Content-Type", "application/json");
         h.sendResponseHeaders(200, resp.length);
         h.getResponseBody().write(resp);

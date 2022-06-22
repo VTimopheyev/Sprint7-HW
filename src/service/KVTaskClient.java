@@ -2,10 +2,7 @@ package service;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.TypeAdapter;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
-import com.google.gson.stream.JsonWriter;
 import issues.Epic;
 import issues.Subtask;
 import issues.Task;
@@ -22,9 +19,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 public class KVTaskClient {
-    URI url;
-    public String API_TOKEN;
-    HttpClient client;
+    private URI url;
+    private String API_TOKEN;
+    private HttpClient client;
 
 
     public KVTaskClient(String URL) {
@@ -33,9 +30,13 @@ public class KVTaskClient {
         registerToServer();
     }
 
+    public String getAPI_TOKEN() {
+        return API_TOKEN;
+    }
+
     private void registerToServer() {
         try {
-            System.out.println("Registering to KVServer...");
+            System.out.println("Registering to service.KVServer...");
             String url = "http://localhost:8078/register/";
             URI regUrl = URI.create(url);
             HttpRequest request = HttpRequest.newBuilder().uri(regUrl).GET().build();
@@ -125,25 +126,6 @@ public class KVTaskClient {
         }
     }
 
-    public void savePrioritizedTasksToServer(TreeMap<ZonedDateTime, Integer> prioritizedIssues) {
-        GsonBuilder gsonBuilder = new GsonBuilder();
-        gsonBuilder.serializeNulls();
-        gsonBuilder.registerTypeAdapter(ZonedDateTime.class, new ZonedDateTimeAdapter().nullSafe());
-        gsonBuilder.registerTypeAdapter(Duration.class, new DurationAdapter().nullSafe());
-        Gson gson = gsonBuilder.create();
-        String value = gson.toJson(prioritizedIssues);
-        URI saveUrl = URI.create(url + "/save/prioritizedIssues?API_TOKEN=" + API_TOKEN);
-        HttpRequest request = HttpRequest.newBuilder().uri(saveUrl).POST(HttpRequest.BodyPublishers.ofString(value)).build();
-        try {
-            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-            System.out.println(response.body());
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     public HttpTaskManager loadManagerFromServer(String API_TOKEN) {
 
         HttpTaskManager manager = new HttpTaskManager("http://localhost:8078");
@@ -163,7 +145,6 @@ public class KVTaskClient {
             Type taskType = new TypeToken<HashMap<Integer, Task>>(){}.getType();
             HashMap<Integer, Task> tasks = gson.fromJson(mapAsString, taskType);
             manager.tasks = tasks;
-            System.out.println(manager.getTasks());
 
             //Subtasks
             url = "http://localhost:8078/load/subtasks?API_TOKEN=" + API_TOKEN;
@@ -174,7 +155,6 @@ public class KVTaskClient {
             Type subtaskType = new TypeToken<HashMap<Integer, Subtask>>(){}.getType();
             HashMap<Integer, Subtask> subtasks = gson.fromJson(mapAsString, subtaskType);
             manager.subtasks = subtasks;
-            System.out.println(manager.getSubtasks());
 
 
             //Epics
@@ -186,7 +166,6 @@ public class KVTaskClient {
             Type epicType = new TypeToken<HashMap<Integer, Epic>>(){}.getType();
             HashMap<Integer, Epic> epics = gson.fromJson(mapAsString, epicType);
             manager.epics = epics;
-            System.out.println(manager.getEpics());
 
             //History
             url = "http://localhost:8078/load/history?API_TOKEN=" + API_TOKEN;
@@ -201,11 +180,9 @@ public class KVTaskClient {
                     manager.getIssueById(id);
                 }
             }
-            System.out.println(manager.historyManager.getHistory());
 
             //Prioritized Tasks
             manager.refreshPrioritizedIssuesList();
-            System.out.println(manager.getPrioritizedIssuesList());
 
 
 
@@ -214,7 +191,7 @@ public class KVTaskClient {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        return null;
+        return manager;
     }
 
 }

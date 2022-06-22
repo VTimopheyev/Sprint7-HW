@@ -11,14 +11,15 @@ public class HttpTaskManager extends FileBackedTasksManager implements TaskManag
     }
 
     @Override
-    public void save(){
-        System.out.println("kukusiki");
+    public void save() {
+        client.saveTasksToServer(tasks);
+        client.saveEpicsToServer(epics);
+        client.saveSubtasksToServer(subtasks);
+        client.saveHistoryToServer(historyManager.getHistory());
     }
 
-    public HttpTaskManager load (){
-        return new HttpTaskManager("localhostic");
+    public HttpTaskManager load(String url) {
+        return client.loadManagerFromServer(url);
     }
-
-
 }
 

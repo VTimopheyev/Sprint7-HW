@@ -15,7 +15,7 @@ import static service.FileBackedTasksManager.loadFromFile;
 public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTasksManager> {
 
     public void createAllTestingInstances() {
-        TaskManager taskManager = Managers.getDefault("sources/test.csv");
+        TaskManager taskManager = new FileBackedTasksManager("sources/test.csv");
         Task task1 = new Task("First task", "Very first task");
         Task task2 = new Task("Second task", "Another one");
         Epic epic1 = new Epic("First epic", "Some description");
@@ -34,7 +34,7 @@ public class FileBackedTaskManagerTest extends TaskManagerTest<FileBackedTasksMa
     }
 
     public void createOnlyManagerInstance() {
-        TaskManager taskManager = Managers.getDefault("sources/test.csv");
+        TaskManager taskManager = new FileBackedTasksManager("sources/test.csv");
         this.manager = (FileBackedTasksManager) taskManager;
     }
 
